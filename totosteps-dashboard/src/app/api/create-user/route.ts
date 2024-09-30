@@ -9,7 +9,7 @@ export async function POST(request: Request) {
         if (!firstName || !lastName || !email || !password || !role ) {
             return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
         }
-        const response = await fetch(`${baseUrl}/api/register`,{
+        const response = await fetch(`${baseUrl}/api/register/`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
