@@ -1,3 +1,4 @@
+
 import { LoginCredentials } from "./types";
 
 export const userLogin = async ({ email, password }: LoginCredentials) => {
@@ -8,15 +9,21 @@ export const userLogin = async ({ email, password }: LoginCredentials) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
+      cache: 'no-store', 
     });
     
+    const data = await response.json();
+    
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Login failed');
+      throw new Error(data.error || 'Login failed');
     }
     
-    return response.json();
+    return data;
   } catch (error) {
-    throw new Error((error as Error).message);
+    console.error('Login error:', error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error('An unexpected error occurred during login');
   }
 };
