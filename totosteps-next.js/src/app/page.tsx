@@ -1,16 +1,14 @@
-
 import React from 'react';
 import Layout from './components/Layout';
 
-const Dashboard = () =>{
-
-  return(
-    <div>
+const Dashboard = () => {
+  return (
     <Layout>
-      <div>
+      <div className="p-8">
+      
       </div>
     </Layout>
-    </div>
-  )
-}
+  );
+};
+
 export default Dashboard;
