@@ -27,7 +27,7 @@ const Sidebar = () => {
         </div>
       </div>
       <ul className="flex-grow space-y-[180px]">
-        <NavItem href="/" icon={<Home size={32} strokeWidth={2.5} />} text="Home" active={pathname === '/'} />
+        <NavItem href="/homepage" icon={<Home size={32} strokeWidth={2.5} />} text="Home" active={pathname === '/'} />
         <NavItem href="/Users" icon={<Users size={32} strokeWidth={2.5} />} text="Users" active={pathname === '/Users'} />
         <NavItem href="/Resources" icon={<Box size={32} strokeWidth={2.5} />} text="Resources" active={pathname === '/Resources'} />
       </ul>

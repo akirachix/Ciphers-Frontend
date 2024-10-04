@@ -3,10 +3,11 @@ import React from 'react';
 import { useUsers } from '../hooks/useGetUser';
 import { useResources } from '../hooks/useGetResource';
 import Layout from '../components/Layout';
+import Image from 'next/image'; // Importing Next.js Image component
 
 const Dashboard: React.FC = () => {
-  const { users, loading: usersLoading, error: usersError } = useUsers();
-  const { resourcesCount, loading: resourcesLoading, error: resourcesError } = useResources();
+  const { users /* , loading: usersLoading, error: usersError */ } = useUsers();
+  const { resourcesCount /* , loading: resourcesLoading, error: resourcesError */ } = useResources();
 
   return (
     <Layout>
@@ -36,11 +37,12 @@ const Dashboard: React.FC = () => {
             {users.map((user) => (
               <div className="flex justify-between px-2 md:px-[29px] py-4 border-b border-gray-100" key={user.id}>
                 <div className="flex items-center text-gray-800 text-[18px] sm:text-[25px]">
-                  <img
+                  <Image
                     src="/images/icon.png"
                     alt="User Icon"
-                    className="inline-block w-6 h-6 mr-2"
-                    style={{ width: '30px', height: '30px' }}
+                    width={30} // Adjusted width for the Image component
+                    height={30} // Adjusted height for the Image component
+                    className="inline-block mr-2"
                   />
                   <span>{user.id}</span>
                 </div>
