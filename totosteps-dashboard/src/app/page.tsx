@@ -1,13 +1,13 @@
-
-
-import Dashboard from "./homepage/page";
-export default function Home() {
+import React from 'react';
+import Layout from './components/Layout';
+const Dashboard = () => {
   return (
-    <main>
-      <Dashboard/>
-    </main>
+    <div>
+      <Layout>
+        <div>
+        </div>
+      </Layout>
+    </div>
   );
-}
-
-
-
+};
+export default Dashboard;    

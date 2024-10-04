@@ -1,13 +1,31 @@
-import { NextResponse } from 'next/server';
-const baseURL = process.env.BASE_URL
+const baseURL = process.env.BASE_URL;
 
-export async function GET() {
+export async function POST(request: Request) {
   try {
-    const response = await fetch(`${baseURL}/api/resources/`);
-    const resources = await response.json();
+    const requestData = await request.json(); 
+    console.log('Received data:', requestData);
 
-    return NextResponse.json({ resources });
+    const response = await fetch(`${baseURL}/resources`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error posting resources: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return new Response(JSON.stringify(data), {
+      status: 201, 
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    return NextResponse.json({ error: 'Error fetching resources'+ (error as Error).message }, { status: 500 });
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

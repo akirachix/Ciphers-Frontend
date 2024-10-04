@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import { useUsers } from '../hooks/useGetUsers';
-import { useResources } from '../hooks/useGetResources';
+import { useUsers } from '../hooks/useGetUser';
+import { useResources } from '../hooks/useGetResource';
 import Layout from '../components/Layout';
 
 const Dashboard: React.FC = () => {

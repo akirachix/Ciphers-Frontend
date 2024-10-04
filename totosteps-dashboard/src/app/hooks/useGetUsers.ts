@@ -1,34 +1,43 @@
-import { useState, useEffect } from 'react';
 
-interface User {
-    id: string;
-    first_name: string;
-    last_name: string;
-    status: 'ACTIVE' | 'RESTRICTED';
-  }
-  export const useUsers = () => {
-    const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    useEffect(() => {
-      const fetchUsers = async () => {
-        try {
-          setLoading(true);
-          const response = await fetch('https://totosteps-29a482165136.herokuapp.com/api/users/');
-          if (!response.ok) {
-            throw new Error('Failed to fetch users');
-          }
-          const data: User[] = await response.json();
-          const filteredUsers = data.filter((user: User) => user.first_name && user.last_name);
-          setUsers(filteredUsers.slice(0, 6));
-        } catch (error) {
-          console.error('Error fetching users:', error);
-          setError('Failed to load users. Please try again later.');
-        } finally {
-          setLoading(false);
+import { useEffect, useState } from 'react';
+import { fetchData } from '../utils/fetchUsersList';
+import { User } from '../utils/types';
+
+export const useUsers = () => {
+  const [data, setData] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const result = await fetchData('/api/users');
+        console.log('Fetched users:', result);
+        setData(result?.users);
+      } catch (err: unknown) {
+        console.error('Error fetching users:', err);
+        const fallbackUsers: User[] = [
+          {
+            id: 1, first_name: 'John', last_name: 'Doe', status: 'ACTIVE',
+            user_id: 1 
+          },
+          {
+            id: 2, first_name: 'Jane', last_name: 'Smith', status: 'RESTRICTED',
+            user_id: 2
+          },
+        ];
+        setData(fallbackUsers);
+        if (err instanceof Error) {
+          setError(err);
+        } else {
+          setError(new Error("An unknown error occurred"));
         }
-      };
-      fetchUsers();
-    }, []);
-    return { users, setUsers, loading, error };
-  };
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  return { data, isLoading, error };
+};
