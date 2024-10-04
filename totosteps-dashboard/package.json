@@ -22,9 +22,15 @@
     "chart.js": "^4.4.4",
 
     "circular-json": "^0.5.9",
+<<<<<<< HEAD
 
     "lucide-react": "^0.445.0",
     "next": "^14.2.13",
+=======
+    "js-cookie": "^3.0.5",
+    "lucide-react": "^0.447.0",
+    "next": "^14.2.14",
+>>>>>>> 3c8694c (add cookies)
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
@@ -35,9 +41,15 @@
   },
 
   "devDependencies": {
+<<<<<<< HEAD
 
     "@types/node": "^20",
     "@types/react": "^18.3.10",
+=======
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^22",
+    "@types/react": "^18.3.11",
+>>>>>>> 3c8694c (add cookies)
     "@types/react-dom": "^18",
 
     "eslint": "^8",

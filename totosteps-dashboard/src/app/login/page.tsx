@@ -1,24 +1,62 @@
+
+
 "use client";
 import Image from 'next/image';
 import Link from 'next/link';
 import { Nunito } from 'next/font/google';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { useLogin } from '../hooks/useLogin';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import Cookies from 'js-cookie';
+import { userLogin } from '../utils/loginUser';
+
 const nunito = Nunito({
   subsets: ['latin'],
 });
 
+const schema = z.object({
+  email: z.string().email('Invalid email').min(1,'Email is required'),
+  password: z.string().min(1,'Password is required'),
+});
+
+type FormData = z.infer<typeof schema>;
+
 export default function Login() {
-  const {
-    showPassword,
-    setShowPassword,
-    loading,
-    error,
-    register,
-    handleSubmit,
-    errors,
-    onSubmit
-  } = useLogin();
+  const router = useRouter();
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await userLogin(data);
+      console.log({ response });
+
+      if (response.error) {
+        setErrorMessage(response.error);
+      } else {
+        
+        Cookies.set('token', response.token, { expires: 7 });  
+
+       
+        router.push("/homepage");
+        setErrorMessage(null);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrorMessage('An error occurred. Please try again.');
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className={`flex flex-col md:flex-row h-full md:h-screen ${nunito.className}`}>
       <div className="absolute top-4 left-4 flex justify-center md:justify-start">
@@ -45,7 +83,7 @@ export default function Login() {
           <h2 className="text-center font-bold" style={{ fontSize: '40px', marginBottom: '45px' }}>
             Login
           </h2>
-          {error && <p className="text-red-500 text-center">{error}</p>}
+          {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
             <div className="space-y-4">
               <label className="block text-white" style={{ fontSize: '20px' }}>Email</label>
@@ -72,7 +110,7 @@ export default function Login() {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={togglePasswordVisibility}
                   className="absolute inset-y-0 right-3 flex items-center text-gray-500"
                 >
                   {showPassword ? <AiOutlineEye size={24} /> : <AiOutlineEyeInvisible size={24} />}
@@ -84,11 +122,11 @@ export default function Login() {
               <button
                 type="submit"
                 className={`w-full max-w-[180px] h-[50px] md:h-[50px] py-3 rounded-[50px] mb-4 text-white font-bold transition duration-300
-                  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#F58220] hover:bg-orange-600'}`}
+                  ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#F58220] hover:bg-orange-600'}`}
                 style={{ fontSize: '20px' }}
-                disabled={loading}
+                disabled={isSubmitting}
               >
-                {loading ? 'Logging in...' : 'Login'}
+                {isSubmitting ? 'Logging in...' : 'Login'}
               </button>
             </div>
             <p className="text-center mt-6" style={{ fontSize: '20px' }}>
