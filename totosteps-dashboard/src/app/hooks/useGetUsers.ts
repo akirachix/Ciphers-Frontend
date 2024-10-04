@@ -1,4 +1,4 @@
-"use effect"
+
 import { useEffect, useState } from 'react';
 import { fetchData } from '../utils/fetchUsersList';
 import { User } from '../utils/types';
@@ -19,11 +19,11 @@ export const useUsers = () => {
         const fallbackUsers: User[] = [
           {
             id: 1, first_name: 'John', last_name: 'Doe', status: 'ACTIVE',
-            user_id: undefined
+            user_id: 1 
           },
           {
             id: 2, first_name: 'Jane', last_name: 'Smith', status: 'RESTRICTED',
-            user_id: undefined
+            user_id: 2
           },
         ];
         setData(fallbackUsers);

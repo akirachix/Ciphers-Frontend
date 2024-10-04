@@ -5,7 +5,7 @@ import { XCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getFullName, User } from '../utils/fetchUsersList';
 import Layout from '../components/Layout';
 
-export const useUsers = () => {
+ const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

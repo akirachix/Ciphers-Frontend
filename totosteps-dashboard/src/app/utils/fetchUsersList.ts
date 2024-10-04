@@ -8,7 +8,7 @@ export const fetchData = async (endpoint: string, options = {}) => {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     return await response.json();
-  } catch (error) {
+  } catch {
     throw new Error('Failed to fetch data');
   }
 };
