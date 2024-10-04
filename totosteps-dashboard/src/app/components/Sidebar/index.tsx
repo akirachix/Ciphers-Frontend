@@ -15,11 +15,11 @@ interface NavItemProps {
 const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <nav className="bg-customPurple text-white h-screen w-[379px] flex flex-col items-center">
+    <nav className="bg-customPurple text-white h-screen w-[379px] flex flex-col items-center ">
       <div className="p-4 flex justify-center items-center">
         <div className="w-40 h-40 relative mb-8">
           <Image
-            src="/image/logo.png"
+            src="/images/logo.png"
             alt="Totosteps Logo"
             fill // Use 'fill' instead of 'layout="fill"'
             className="object-contain" // Use CSS class instead of 'objectFit="contain"'
@@ -27,7 +27,7 @@ const Sidebar = () => {
         </div>
       </div>
       <ul className="flex-grow space-y-[180px]">
-        <NavItem href="/" icon={<Home size={32} strokeWidth={2.5} />} text="Home" active={pathname === '/'} />
+        <NavItem href="/homepage" icon={<Home size={32} strokeWidth={2.5} />} text="Home" active={pathname === '/'} />
         <NavItem href="/Users" icon={<Users size={32} strokeWidth={2.5} />} text="Users" active={pathname === '/Users'} />
         <NavItem href="/Resources" icon={<Box size={32} strokeWidth={2.5} />} text="Resources" active={pathname === '/Resources'} />
       </ul>
