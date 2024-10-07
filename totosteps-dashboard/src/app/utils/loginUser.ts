@@ -1,6 +1,10 @@
 
 import { LoginCredentials } from "./types";
 
+
+
+
+
 export const userLogin = async ({ email, password }: LoginCredentials) => {
   try {
     const response = await fetch('/api/login-user', {
