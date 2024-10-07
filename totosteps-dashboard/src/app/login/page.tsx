@@ -1,5 +1,3 @@
-
-
 "use client";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,30 +5,30 @@ import { Nunito } from "next/font/google";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { setCookie, getCookie } from "cookies-next"; 
+import { useState } from "react";
+import { setCookie } from "cookies-next"; 
 import { userLogin } from "../utils/loginUser";
 
 const nunito = Nunito({
   subsets: ["latin"],
 });
 
+interface LoginCredentials {
+    email: string;
+    password: string;
+}
+
 export default function Login() {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<LoginCredentials>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
- 
-
-
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginCredentials) => {
     try {
       const response = await userLogin(data);
       console.log({ response });
