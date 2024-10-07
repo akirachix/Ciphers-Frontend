@@ -19,7 +19,7 @@ export async function POST(request: Request) {
                 last_name: lastName,
                 email,
                 password,
-                role,
+                
                 
                 
             })
@@ -33,4 +33,3 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }
-

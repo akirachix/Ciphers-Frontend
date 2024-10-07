@@ -1,6 +1,10 @@
 
+
+
+
 "use client";
 import { useForm } from "react-hook-form";
+import React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -8,6 +12,7 @@ import { Nunito } from "next/font/google";
 import Link from "next/link";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useSignUp } from "../hooks/useSignup";
+import { setCookie } from 'cookies-next'; 
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -51,8 +56,16 @@ export default function SignUp() {
 
   const onSubmit = handleSubmit(async (data: FormData) => {
     await signUp(data);
+    
+    
+    setCookie('email', data.email, { maxAge: 60 * 60 * 24 * 365, path: '/' });
+    setCookie('password', data.password, { maxAge: 60 * 60 * 24 * 365, path: '/' });
   });
 
+
+
+
+  
   return (
     <div className={`flex flex-col md:flex-row h-full md:h-screen bg-white ${nunito.className}`}>
       <div className="absolute top-4 left-4 flex justify-center md:justify-start">
@@ -200,3 +213,8 @@ export default function SignUp() {
     </div>
   );
 }
+
+
+
+
+
