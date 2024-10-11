@@ -7,7 +7,7 @@ export function middleware(req: Request) {
     const isloggedIn = getCookie('isLoggedIn' , {req});
 
     if (isloggedIn === 'true') {
-        return NextResponse.redirect(new URL ('/homepage', req.url));
+        return NextResponse.redirect(new URL ('/Users', req.url));
     }
 
     return NextResponse.next();
@@ -15,5 +15,5 @@ export function middleware(req: Request) {
 
 
 export const config = {
-    matcher: ['/sign-up'],
+    matcher: ['/login'],
 };
