@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Box } from 'lucide-react';
+import { Users, Box } from 'lucide-react';
 
 interface NavItemProps {
   href: string;
@@ -27,7 +27,6 @@ const Sidebar = () => {
         </div>
       </div>
       <ul className="flex-grow space-y-[180px]">
-        <NavItem href="/homepage" icon={<Home size={32} strokeWidth={2.5} />} text="Home" active={pathname === '/'} />
         <NavItem href="/Users" icon={<Users size={32} strokeWidth={2.5} />} text="Users" active={pathname === '/Users'} />
         <NavItem href="/Resources" icon={<Box size={32} strokeWidth={2.5} />} text="Resources" active={pathname === '/Resources'} />
       </ul>
