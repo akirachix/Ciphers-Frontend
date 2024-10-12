@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { Trash2, X } from 'lucide-react';
+import { Edit, Trash2, X } from 'lucide-react';
 
 interface Resource {
   resource_id: string;
@@ -21,6 +21,8 @@ const Resources: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
   const [isContentModalOpen, setIsContentModalOpen] = useState<boolean>(false);
+  const [editingResource, setEditingResource] = useState<Resource | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchResources();
@@ -57,6 +59,11 @@ const Resources: React.FC = () => {
     }
   };
 
+  const handleEdit = (resource: Resource) => {
+    setEditingResource(resource);
+    setIsEditModalOpen(true);
+  };
+
   const handleDelete = async (resourceId: string) => {
     if (window.confirm('Are you sure you want to delete this resource?')) {
       try {
@@ -71,6 +78,31 @@ const Resources: React.FC = () => {
         console.error('Error deleting resource:', err);
         alert('Failed to delete resource. Please try again.');
       }
+    }
+  };
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingResource) return;
+
+    try {
+      const response = await fetch(`https://totosteps-29a482165136.herokuapp.com/api/resources/${editingResource.resource_id}/`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editingResource),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Failed to update resource: ${errorData.detail}`);
+      }
+      const updatedResource = await response.json();
+      setResources(resources.map(r => r.resource_id === updatedResource.resource_id ? updatedResource : r));
+      setIsEditModalOpen(false);
+    } catch (err) {
+      console.error('Error updating resource:', err);
+      alert(`Failed to update resource: ${err.message}`);
     }
   };
 
@@ -104,9 +136,14 @@ const Resources: React.FC = () => {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="text-lg font-medium text-gray-800">{resource.title}</h4>
-                    <button onClick={(e) => { e.stopPropagation(); handleDelete(resource.resource_id); }} className="text-red-500 hover:text-red-700">
-                      <Trash2 size={18} />
-                    </button>
+                    <div className="flex space-x-2">
+                      <button onClick={(e) => { e.stopPropagation(); handleEdit(resource); }} className="text-blue-500 hover:text-blue-700">
+                        <Edit size={18} />
+                      </button>
+                      <button onClick={(e) => { e.stopPropagation(); handleDelete(resource.resource_id); }} className="text-red-500 hover:text-red-700">
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                   </div>
                   <p className="text-xs text-gray-500">Click to view full content</p>
                 </div>
@@ -147,6 +184,74 @@ const Resources: React.FC = () => {
                 <p><strong>Last Updated:</strong> {new Date(selectedResource.updated_at).toLocaleString()}</p>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {isEditModalOpen && editingResource && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold">Edit Resource</h3>
+              <button onClick={() => setIsEditModalOpen(false)} className="text-gray-500 hover:text-gray-700">
+                <X size={24} />
+              </button>
+            </div>
+            <form onSubmit={handleSave}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Title</label>
+                <input
+                  type="text"
+                  value={editingResource.title}
+                  onChange={(e) => setEditingResource({ ...editingResource, title: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Tips</label>
+                <textarea
+                  value={editingResource.tips}
+                  onChange={(e) => setEditingResource({ ...editingResource, tips: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  rows={3}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Activities</label>
+                <textarea
+                  value={editingResource.activities}
+                  onChange={(e) => setEditingResource({ ...editingResource, activities: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  rows={3}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Milestone</label>
+                <input
+                  type="number"
+                  value={editingResource.milestone}
+                  onChange={(e) => setEditingResource({ ...editingResource, milestone: Number(e.target.value) })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">Type</label>
+                <input
+                  type="text"
+                  value={editingResource.type}
+                  onChange={(e) => setEditingResource({ ...editingResource, type: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
