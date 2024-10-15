@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Users, Box } from 'lucide-react';
+import { Users, ChartPie, Box } from 'lucide-react';
 
 interface NavItemProps {
   href: string;
@@ -21,13 +21,14 @@ const Sidebar = () => {
           <Image
             src="/images/logo.png"
             alt="Totosteps Logo"
-            fill // Use 'fill' instead of 'layout="fill"'
-            className="object-contain" // Use CSS class instead of 'objectFit="contain"'
+            fill
+            className="object-contain"
           />
         </div>
       </div>
       <ul className="flex-grow space-y-[180px]">
         <NavItem href="/Users" icon={<Users size={32} strokeWidth={2.5} />} text="Users" active={pathname === '/Users'} />
+        <NavItem href="/Milestones" icon={<ChartPie size={32} strokeWidth={2.5} />} text="Milestones" active={pathname === '/Milestones'} />
         <NavItem href="/Resources" icon={<Box size={32} strokeWidth={2.5} />} text="Resources" active={pathname === '/Resources'} />
       </ul>
     </nav>
@@ -51,7 +52,3 @@ const NavItem: React.FC<NavItemProps> = ({ href, icon, text, active }) => {
 };
 
 export default Sidebar;
-
-
-
-
