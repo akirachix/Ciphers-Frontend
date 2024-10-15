@@ -27,7 +27,7 @@ const Resources: React.FC = () => {
   const [resourceToDelete, setResourceToDelete] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [resourcesPerPage] = useState<number>(6); 
+  const [resourcesPerPage] = useState<number>(6);
 
   useEffect(() => {
     fetchResources();
@@ -132,7 +132,7 @@ const Resources: React.FC = () => {
   return (
     <Layout>
       <div className="p-6 bg-white rounded-lg shadow w-full">
-        <h2 className="text-3xl font-bold mb-8 text-center" style={{ color: '#4C0033' }}>Resources for Your Child's Growth</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center" style={{ color: '#4C0033' }}>Resources for Your Child&apos;s Growth</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {currentResources.map((resource) => (
@@ -158,7 +158,6 @@ const Resources: React.FC = () => {
           ))}
         </div>
 
-        
         <div className="flex justify-center items-center space-x-4 mt-8">
           <button
             onClick={() => paginate(currentPage - 1)}
@@ -178,21 +177,16 @@ const Resources: React.FC = () => {
         </div>
 
         <p className="mt-8 text-sm text-gray-600 text-center">
-          These resources are designed to support your child's development at each stage.
+          These resources are designed to support your child&apos;s development at each stage.
         </p>
       </div>
 
       {isContentModalOpen && selectedResource && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-lg w-[calc(100%-4rem)] h-[90vh] max-w-4xl overflow-y-auto mx-auto
-                          nest-hub:w-[calc(100%-4rem)] nest-hub:h-[95vh]
-                          nest-hub-max:w-[calc(100%-6rem)] nest-hub-max:h-[92vh]">
+          <div className="bg-white rounded-lg w-[calc(100%-4rem)] h-[90vh] max-w-4xl overflow-y-auto mx-auto nest-hub:w-[calc(100%-4rem)] nest-hub:h-[95vh] nest-hub-max:w-[calc(100%-6rem)] nest-hub-max:h-[92vh]">
             <div className="sticky top-0 bg-white z-10 p-6 border-b nest-hub:p-4 nest-hub-max:p-5">
               <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-semibold nest-hub .content-modal h3,
-                                                       .nest-hub-max .content-modal h3 {
-                                                         font-size: 50px;
-                                                       }">{selectedResource.title}</h3>
+                <h3 className="text-2xl font-semibold nest-hub.content-modal h3 nest-hub-max.content-modal h3 { font-size: 50px; }">{selectedResource.title}</h3>
                 <button onClick={() => setIsContentModalOpen(false)} className="text-gray-500 hover:text-gray-700">
                   <X size={24} className="nest-hub:w-16 nest-hub:h-16 nest-hub-max:w-16 nest-hub-max:h-16" />
                 </button>
@@ -200,24 +194,12 @@ const Resources: React.FC = () => {
             </div>
             <div className="p-6 nest-hub:p-4 nest-hub-max:p-5">
               <div className="mb-6">
-                <h4 className="text-xl font-medium mb-2 nest-hub .content-modal h4,
-                                                          .nest-hub-max .content-modal h4 {
-                                                            font-size: 50px;
-                                                          }">Tips:</h4>
-                <p className="text-base text-gray-800 whitespace-pre-wrap nest-hub .content-modal p,
-                                                                           .nest-hub-max .content-modal p {
-                                                                             font-size: 50px;
-                                                                           }">{selectedResource.tips}</p>
+                <h4 className="text-xl font-medium mb-2 nest-hub.content-modal h4 nest-hub-max.content-modal h4 { font-size: 50px; }">Tips:</h4>
+                <p className="text-base text-gray-800 whitespace-pre-wrap nest-hub.content-modal p nest-hub-max.content-modal p { font-size: 50px; }">{selectedResource.tips}</p>
               </div>
               <div>
-                <h4 className="text-xl font-medium mb-2 nest-hub .content-modal h4,
-                                                          .nest-hub-max .content-modal h4 {
-                                                            font-size: 50px;
-                                                          }">Activities:</h4>
-                <p className="text-base text-gray-800 whitespace-pre-wrap nest-hub .content-modal p,
-                                                                           .nest-hub-max .content-modal p {
-                                                                             font-size: 50px;
-                                                                           }">{selectedResource.activities}</p>
+                <h4 className="text-xl font-medium mb-2 nest-hub.content-modal h4 nest-hub-max.content-modal h4 { font-size: 50px; }">Activities:</h4>
+                <p className="text-base text-gray-800 whitespace-pre-wrap nest-hub.content-modal p nest-hub-max.content-modal p { font-size: 50px; }">{selectedResource.activities}</p>
               </div>
             </div>
           </div>
@@ -239,67 +221,85 @@ const Resources: React.FC = () => {
                 <input
                   type="text"
                   value={editingResource.title}
-                  onChange={(e) => setEditingResource({ ...editingResource, title: e.target.value })}
+                  onChange={(e) => setEditingResource({...editingResource, title: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm sm:text-base font-medium text-gray-700">Type</label>
+                <select
+                  value={editingResource.type}
+                  onChange={(e) => setEditingResource({...editingResource, type: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                  <option value="reading">Reading</option>
+                  <option value="writing">Writing</option>
+                  <option value="math">Math</option>
+                  <option value="science">Science</option>
+                  <option value="social studies">Social Studies</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm sm:text-base font-medium text-gray-700">Milestone</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={editingResource.milestone}
+                  onChange={(e) => setEditingResource({...editingResource, milestone: parseInt(e.target.value)})}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-sm sm:text-base font-medium text-gray-700">Tips</label>
                 <textarea
-                  value={editingResource.tips}
-                  onChange={(e) => setEditingResource({ ...editingResource, tips: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   rows={3}
+                  value={editingResource.tips}
+                  onChange={(e) => setEditingResource({...editingResource, tips: e.target.value })}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-sm sm:text-base font-medium text-gray-700">Activities</label>
                 <textarea
-                  value={editingResource.activities}
-                  onChange={(e) => setEditingResource({ ...editingResource, activities: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   rows={3}
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm sm:text-base font-medium text-gray-700">Type</label>
-                <input
-                  type="text"
-                  value={editingResource.type}
-                  onChange={(e) => setEditingResource({ ...editingResource, type: e.target.value })}
+                  value={editingResource.activities}
+                  onChange={(e) => setEditingResource({...editingResource, activities: e.target.value })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                >
-                  Save Changes
-                </button>
-              </div>
+              <button type="submit" className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+                Save Changes
+              </button>
             </form>
           </div>
         </div>
       )}
 
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 sm:p-6">
-          <div className="bg-white p-6 sm:p-8 rounded-lg w-full max-w-md">
-            <h3 className="text-xl sm:text-2xl font-semibold mb-4">Confirm Deletion</h3>
-            <p className="mb-6 text-base sm:text-lg">Are you sure you want to delete this resource? This action cannot be undone.</p>
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-              >
-                Cancel
-              </button>
+      {isDeleteModalOpen && resourceToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+          <div className="bg-white rounded-lg w-[calc(100%-4rem)] h-[90vh] max-w-4xl overflow-y-auto mx-auto nest-hub:w-[calc(100%-4rem)] nest-hub:h-[95vh] nest-hub-max:w-[calc(100%-6rem)] nest-hub-max:h-[92vh]">
+            <div className="sticky top-0 bg-white z-10 p-6 border-b nest-hub:p-4 nest-hub-max:p-5">
+              <div className="flex justify-between items-center">
+                <h3 className="text-2xl font-semibold nest-hub.content-modal h3 nest-hub-max.content-modal h3 { font-size: 50px; }">Confirm Deletion</h3>
+                <button onClick={() => setIsDeleteModalOpen(false)} className="text-gray-500 hover:text-gray-700">
+                  <X size={24} className="nest-hub:w-16 nest-hub:h-16 nest-hub-max:w-16 nest-hub-max:h-16" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6 nest-hub:p-4 nest-hub-max:p-5">
+              <p className="text-lg font-medium mb-4 nest-hub.content-modal p nest-hub-max.content-modal p { font-size: 50px; }">Are you sure you want to delete this resource?</p>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
               >
-                Delete
+                Delete Resource
+              </button>
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
+              >
+                Cancel
               </button>
             </div>
           </div>
@@ -308,4 +308,5 @@ const Resources: React.FC = () => {
     </Layout>
   );
 };
+
 export default Resources;
