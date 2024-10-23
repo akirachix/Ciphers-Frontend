@@ -41,6 +41,7 @@ export interface LoginCredentials {
 
 
 export interface User {
+  email: ReactNode;
   user_id: number;
   id: number;
   first_name: string;

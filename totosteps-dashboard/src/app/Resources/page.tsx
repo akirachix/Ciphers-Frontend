@@ -276,35 +276,28 @@ const Resources: React.FC = () => {
         </div>
       )}
 
-      {isDeleteModalOpen && resourceToDelete && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-lg w-[calc(100%-4rem)] h-[90vh] max-w-4xl overflow-y-auto mx-auto nest-hub:w-[calc(100%-4rem)] nest-hub:h-[95vh] nest-hub-max:w-[calc(100%-6rem)] nest-hub-max:h-[92vh]">
-            <div className="sticky top-0 bg-white z-10 p-6 border-b nest-hub:p-4 nest-hub-max:p-5">
-              <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-semibold nest-hub.content-modal h3 nest-hub-max.content-modal h3 { font-size: 50px; }">Confirm Deletion</h3>
-                <button onClick={() => setIsDeleteModalOpen(false)} className="text-gray-500 hover:text-gray-700">
-                  <X size={24} className="nest-hub:w-16 nest-hub:h-16 nest-hub-max:w-16 nest-hub-max:h-16" />
-                </button>
-              </div>
-            </div>
-            <div className="p-6 nest-hub:p-4 nest-hub-max:p-5">
-              <p className="text-lg font-medium mb-4 nest-hub.content-modal p nest-hub-max.content-modal p { font-size: 50px; }">Are you sure you want to delete this resource?</p>
-              <button
-                onClick={handleDelete}
-                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
-              >
-                Delete Resource
-              </button>
-              <button
-                onClick={() => setIsDeleteModalOpen(false)}
-                className="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+{isDeleteModalOpen && resourceToDelete && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+    <div className="bg-white rounded-lg p-6 max-w-sm w-full">
+      <h3 className="text-xl font-semibold mb-4">Confirm Deletion</h3>
+      <p className="text-gray-600 mb-6">Are you sure you want to delete this resource? This action cannot be undone.</p>
+      <div className="flex justify-end space-x-4">
+        <button
+          onClick={() => setIsDeleteModalOpen(false)}
+          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleDelete}
+          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </Layout>
   );
 };
