@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaUsers, FaChartLine } from 'react-icons/fa';
+import { FaUsers } from 'react-icons/fa';
 import { GiMountainClimbing, GiBookshelf } from 'react-icons/gi';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
@@ -71,26 +71,37 @@ const Home = () => {
     fetchData();
   }, []);
 
+  // Calculate recent activity stats using the users and milestones data
+  const recentStats = {
+    activeUsers: users.filter(user => user.created_at && 
+      new Date(user.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length,
+    completedMilestones: milestones.filter(milestone => milestone.status === 'completed').length
+  };
+
   const growthData = [
     { 
       name: 'Week 1', 
       Parents: Math.round(metrics.totalUsers * 0.4),
-      Children: Math.round(metrics.totalChildren * 0.4)
+      Children: Math.round(metrics.totalChildren * 0.4),
+      ActiveMilestones: Math.round(recentStats.completedMilestones * 0.4)
     },
     { 
       name: 'Week 2', 
       Parents: Math.round(metrics.totalUsers * 0.6),
-      Children: Math.round(metrics.totalChildren * 0.6)
+      Children: Math.round(metrics.totalChildren * 0.6),
+      ActiveMilestones: Math.round(recentStats.completedMilestones * 0.6)
     },
     { 
       name: 'Week 3', 
       Parents: Math.round(metrics.totalUsers * 0.8),
-      Children: Math.round(metrics.totalChildren * 0.8)
+      Children: Math.round(metrics.totalChildren * 0.8),
+      ActiveMilestones: Math.round(recentStats.completedMilestones * 0.8)
     },
     { 
       name: 'Week 4', 
       Parents: metrics.totalUsers,
-      Children: metrics.totalChildren
+      Children: metrics.totalChildren,
+      ActiveMilestones: recentStats.completedMilestones
     },
   ];
 
@@ -116,6 +127,7 @@ const Home = () => {
                   <div>
                     <p className="text-lg font-semibold mb-2">Total Users</p>
                     <p className="text-4xl font-bold">{metrics.totalUsers}</p>
+                    <p className="text-sm mt-2">New this week: {recentStats.activeUsers}</p>
                   </div>
                   <div className="text-white">
                     <FaUsers size={36} />
@@ -130,6 +142,7 @@ const Home = () => {
                   <div>
                     <p className="text-lg font-semibold mb-2">Total Milestones</p>
                     <p className="text-4xl font-bold">{metrics.totalMilestones}</p>
+                    <p className="text-sm mt-2">Completed: {recentStats.completedMilestones}</p>
                   </div>
                   <div className="text-white">
                     <GiMountainClimbing size={36} />
@@ -154,7 +167,7 @@ const Home = () => {
           </div>
 
           <div className="bg-white rounded-lg p-6 shadow-lg">
-            <h2 className="text-xl font-bold text-[#4C0033] mb-4 text-center">Parents and Children Growth</h2>
+            <h2 className="text-xl font-bold text-[#4C0033] mb-4 text-center">Platform Growth & Activity</h2>
             <div className="h-60">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart 
@@ -170,7 +183,7 @@ const Home = () => {
                   />
                   <YAxis 
                     label={{ 
-                      value: 'Number of Parents & Children', 
+                      value: 'Growth Metrics', 
                       angle: -90, 
                       position: 'insideLeft',
                       offset: 10,
@@ -201,6 +214,12 @@ const Home = () => {
                   <Bar 
                     dataKey="Children" 
                     fill="#F58220"
+                    radius={[4, 4, 0, 0]}
+                    maxBarSize={60}
+                  />
+                  <Bar 
+                    dataKey="ActiveMilestones" 
+                    fill="#800033"
                     radius={[4, 4, 0, 0]}
                     maxBarSize={60}
                   />
