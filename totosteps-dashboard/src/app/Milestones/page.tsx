@@ -50,14 +50,23 @@ const Milestones: React.FC = () => {
     milestone => milestone.category.toLowerCase() === activeCategory.toLowerCase()
   );
 
-  // Pagination logic
-  const indexOfLastMilestone = currentPage * milestonesPerPage;
-  const indexOfFirstMilestone = indexOfLastMilestone - milestonesPerPage;
+  const getMilestonesPerPage = () => {
+    if (typeof window !== 'undefined') {
+      if (window.matchMedia('(min-width: 1024px) and (max-width: 1280px)').matches) {
+        return 3;
+      }
+    }
+    return milestonesPerPage; 
+  };
+
+  const currentItemsPerPage = getMilestonesPerPage();
+  const indexOfLastMilestone = currentPage * currentItemsPerPage;
+  const indexOfFirstMilestone = indexOfLastMilestone - currentItemsPerPage;
   const currentMilestones = filteredMilestones.slice(indexOfFirstMilestone, indexOfLastMilestone);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const totalPages = Math.ceil(filteredMilestones.length / milestonesPerPage);
+  const totalPages = Math.ceil(filteredMilestones.length / currentItemsPerPage);
 
   if (loading) return <Layout><div className="flex justify-center items-center h-screen">Loading milestones...</div></Layout>;
   if (error) return <Layout><div className="flex justify-center items-center h-screen text-red-500">{error}</div></Layout>;
@@ -67,7 +76,6 @@ const Milestones: React.FC = () => {
       <div className="p-6 bg-white rounded-lg shadow w-full">
         <h2 className="text-4xl font-bold mb-8 text-center text-[#4C0033]">Child Development Milestones</h2>
 
-        {/* Category Tabs */}
         <div className="flex justify-center mb-6">
           {categories.map((category) => (
             <button
@@ -88,7 +96,7 @@ const Milestones: React.FC = () => {
         </div>
 
         {filteredMilestones.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 nesthub:grid-cols-3 nesthub-max:grid-cols-3 gap-8 mb-8">
             {currentMilestones.map((milestone) => (
               <div
                 key={milestone.milestone_id}

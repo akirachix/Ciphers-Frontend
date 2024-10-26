@@ -108,8 +108,7 @@ const Home = () => {
       <div className="flex-1 p-8 overflow-auto">
         <h1 className="text-2xl font-bold text-[#4C0033] mb-8 text-center">Dashboard Overview</h1>
         
-        {/* Reduced the vertical space from space-y-16 to space-y-4 to bring graph closer */}
-        <div className="space-y-4">
+        <div className="space-y-12"> 
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-12 lg:col-span-4">
               <div className="bg-gradient-to-r from-[#4C0033] to-[#800033] rounded-lg p-6 text-white h-full">
