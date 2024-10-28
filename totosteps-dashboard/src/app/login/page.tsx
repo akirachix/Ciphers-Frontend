@@ -38,7 +38,7 @@ export default function Login() {
         setCookie("email", data.email, { maxAge: 60 * 60 * 24 * 365, path: "/" });
 
         setTimeout(() => {
-          router.push("/homepage");
+          router.push("/Users");
         }, 2000);
       } else {
         setErrorMessage("Login failed. Please try again.");
