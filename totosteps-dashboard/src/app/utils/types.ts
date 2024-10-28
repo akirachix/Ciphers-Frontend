@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 
 export interface AdminRegistrationData {
   firstName: string;
@@ -41,6 +42,7 @@ export interface LoginCredentials {
 
 
 export interface User {
+  email: ReactNode;
   user_id: number;
   id: number;
   first_name: string;

@@ -19,11 +19,13 @@ export const useUsers = () => {
         const fallbackUsers: User[] = [
           {
             id: 1, first_name: 'John', last_name: 'Doe', status: 'ACTIVE',
-            user_id: 1 
+            user_id: 1,
+            email: undefined
           },
           {
             id: 2, first_name: 'Jane', last_name: 'Smith', status: 'RESTRICTED',
-            user_id: 2
+            user_id: 2,
+            email: undefined
           },
         ];
         setData(fallbackUsers);
